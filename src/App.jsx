@@ -9,10 +9,11 @@ import View from './user/pages/View'
 import AdminCollections from './admin/pages/AdminCollections'
 import AdminHome from './admin/pages/AdminHome'
 import AdminProfile from './admin/pages/AdminProfile'
-import Authent from './pages/Authent'
+import Authent from './Pages/Authent'
 import Pnf from './pages/Pnf'
 import Preloader from './components/Preloader'
 import { useState } from 'react'
+
 
 function App() {
 
