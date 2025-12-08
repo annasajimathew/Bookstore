@@ -9,7 +9,7 @@ function AdminSideBar() {
     <div className='bg-blue-100 md:min-h-screen h-fit md:flex flex-col text-center '>
       {/* admin image */}
       <div className='my-10 flex justify-center items-center'>
-        <img width={'100px'} height={'100px'} style={{borderRadius:'50%'}} src="https://images.squarespace-cdn.com/content/v1/64bfd6aa127fba0754a78d65/1690617601186-7MS4W32UWBXKFKZTCQ14/authorphotos5-1024x683.jpg" alt="user" />
+        <img width={'150px'} height={'150px'} style={{borderRadius:'50%'}} src="https://t4.ftcdn.net/jpg/02/19/63/31/360_F_219633151_BW6TD8D1EA9OqZu4JgdmeJGg4JBaiAHj.jpg" alt="user" />
       </div>
       {/* name */}
       <h1 className="text-lg font-bold mb-5">name</h1>

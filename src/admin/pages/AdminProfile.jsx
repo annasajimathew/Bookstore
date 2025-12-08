@@ -30,7 +30,7 @@ function AdminProfile() {
                     <img style={{ width: '150px', height: '150px', borderRadius: '50%' }}src="https://t4.ftcdn.net/jpg/02/19/63/31/360_F_219633151_BW6TD8D1EA9OqZu4JgdmeJGg4JBaiAHj.jpg" alt="profile"/>
                   </label>
                   {/* edit button on profile pic */}
-                  <button style={{marginTop:'-25px'}} className='bg-blue-600 p-2 text-white rounded'><FaPen/></button>
+                  <button style={{marginTop:'-25px'}} className='bg-yellow-600 p-2 text-white rounded'><FaPen/></button>
                   {/* name */}
                   <div className="mt-7 mb-2 w-full px-5">
                     <input className='border border-gray-200 bg-white p-2 rounded w-full' type="text" placeholder='Username' />

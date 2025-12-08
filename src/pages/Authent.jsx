@@ -1,9 +1,92 @@
 import React, { useState } from 'react'
 import { FaEye, FaEyeSlash, FaUser } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import { loginAPI, registerAPI } from '../services/allAPI'
+
 
 function Authent({ insideRegister }) {
+
+  const navigate = useNavigate()
+
   const [viewPassword, setViewPassword] = useState(false)
+
+  //to store data from FORM
+  const [userDetails, setUserDetails] = useState({
+    username:"", email:"", password:""
+  })
+  //console.log(userDetails);
+
+  //register
+  const handleRegister = async (e)=>{
+    e.preventDefault()
+    const { username, email, password } = userDetails
+    if(username && email && password){
+      //toast.success("API Call")
+      try{
+        const result = await registerAPI(userDetails)
+        console.log(result);
+        if(result.status==200){
+          toast.success("Register Successfull...Please Login to Bookstore")
+          setUserDetails({username:"", email:"", password:""})
+          navigate('/login')
+        }else if(result.status==409){
+          toast.warning(result.response.data)
+          setUserDetails({username:"", email:"", password:""})
+          navigate('/login')
+        }else{
+          console.log(result);
+          toast.error("Something Went Wrong")
+          setUserDetails({username:"", email:"", password:""})
+        }
+        
+      }catch(err){
+          console.log(err);
+      }
+
+    }else{
+      toast.info("Please Fill the Form Completely")
+    }
+  }
+  
+  //login
+  const handleLogin = async (e)=>{
+    e.preventDefault()
+    const { email, password } = userDetails
+    if(email && password){
+      
+      try{
+        //API Call
+        const result = await loginAPI(userDetails)
+        console.log(result);
+        if(result.status==200){
+          toast.success("Login Successfull")
+          sessionStorage.setItem("token",result.data.token)
+          sessionStorage.setItem("user",JSON.stringify(result.data.user))
+          setTimeout(()=>{
+            if(result.data.user.role=="admin"){
+              navigate('/admin/home')
+            }else{
+              navigate('/')
+            }
+          },2500)
+        }else if(result.status==401 || result.status==404){
+          toast.warning(result.response.data)
+          setUserDetails({username:"", email:"", password:""})
+        }else{
+          toast.error("something went wromg")
+          setUserDetails({username:"", email:"", password:""})
+        }       
+      }catch(err){
+          console.log(err);
+      }
+    }else{
+      toast.info("Please Fill the Form Completely")
+    }
+  }
+
+
+
 
   return (
     <div className='w-full min-h-screen flex justify-center items-center flex-col bg-[url(/bg-img.jpeg)] bg-cover bg-center'>
@@ -17,18 +100,15 @@ function Authent({ insideRegister }) {
           <form className="my-5 w-full">
             {/* username */}
             {insideRegister && 
-              <input type="text" placeholder='Username' className='bg-white text-black placeholder-gray-400 w-full p-2 rounded mb-5' />
+              <input value={userDetails.username} onChange={(e)=>setUserDetails({...userDetails,username:e.target.value})}  type="text" placeholder='Username' className='bg-white text-black placeholder-gray-400 w-full p-2 rounded mb-5' />
             }
 
             {/* email */}
-            <input type="text" placeholder='EMAIL-ID' className='bg-white text-black placeholder-gray-400 w-full p-2 rounded mb-5' />
+            <input value={userDetails.email} onChange={(e)=>setUserDetails({...userDetails,email:e.target.value})} type="text" placeholder='EMAIL-ID' className='bg-white text-black placeholder-gray-400 w-full p-2 rounded mb-5' />
 
             {/* password */}
             <div className='relative mb-5'>
-              <input 
-                type={viewPassword ? "text" : "password"} 
-                placeholder='Password' 
-                className='bg-white text-black placeholder-gray-400 w-full p-2 rounded pr-10' />
+              <input value={userDetails.password} onChange={(e)=>setUserDetails({...userDetails,password:e.target.value})} type={viewPassword ? "text" : "password"} placeholder='Password' className='bg-white text-black placeholder-gray-400 w-full p-2 rounded pr-10' />
               {
               viewPassword ? 
                 <FaEyeSlash 
@@ -54,9 +134,9 @@ function Authent({ insideRegister }) {
             {/* login/register btn */}
             <div className='text-center'>
               {insideRegister ?
-                <button type='button' className='bg-green-700 p-2 w-full rounded '>Register</button>
+                <button onClick={handleRegister} type='button' className='bg-green-700 p-2 w-full rounded cursor-pointer '>Register</button>
                 :
-                <button className='bg-green-700 p-2 w-full rounded '>Login</button>
+                <button onClick={handleLogin} className='bg-green-700 p-2 w-full rounded cursor-pointer '>Login</button>
               }
             </div>
 
@@ -71,6 +151,8 @@ function Authent({ insideRegister }) {
           </form>
         </div>
       </div>
+      {/* toast */}
+      <ToastContainer position="top-center" autoClose={2000} theme="colored"/>
     </div>
   )
 }
