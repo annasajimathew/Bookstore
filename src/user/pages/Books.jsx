@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaBars } from 'react-icons/fa'
@@ -7,11 +7,22 @@ import { Link } from 'react-router-dom'
 
 function Books() {
   const [showCategoryList, setShowCategoryList] = useState(false)
+  const [token, setToken] = useState("")
+
+  useEffect(()=>{
+    if(sessionStorage.getItem("user")){
+      const userToken = sessionStorage.getItem("token")
+      setToken(userToken)
+    }
+    },[])
+
   return (
     <>
     <Header/>
     {/* login book page */}
-    <>
+    {
+      token?
+      <> flex-column
     {/* title and search box */}
     <div className="flex flex-col justify-center items-center my-5">
       <h1 className="text-3xl font-bold my-5">All Books</h1>
@@ -91,7 +102,15 @@ function Books() {
       </div>
     
     </>
-    {/* not login book page */}
+    :
+    <div className='w-full h-screen flex justify-center items-center flex-col'>
+      {/* not login book page */}
+      <img className='w-60' src="https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUydjAwMjByZWx6aGlrZDk2czM3bnNyM3R5bmg1dHFuYm1kMDJ4OXhpZSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/Bcgilnov0J67b4AH2B/giphy.gif" alt="lock-screen" />
+      <p className="text-xl font-bold my-5">Please <Link className='underline text-blue-500'>Login</Link> to Explore More!!!</p>
+
+    </div>
+    }
+    
     <Footer/>
     </>
    

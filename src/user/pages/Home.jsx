@@ -1,9 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { FaSearch } from 'react-icons/fa'
+import { toast, ToastContainer } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+
 
 function Home() {
+  const navigate = useNavigate()
+  const [searchKey, setSearchKey] = useState("")
+
+  const handleSearch = ()=>{
+    if(!searchKey){
+      toast.warning("Please Provide A Book Title Here")
+
+    }else if(!sessionStorage.getItem("token")){
+      toast.warning("Please Login to Search Books!!!")
+      setTimeout(()=>{
+        navigate('/login')
+      },2500)
+    }else if(sessionStorage.getItem("token") && searchKey){
+      navigate('/books')
+    }else{
+      toast.error("Something Went Wrong!!!")
+    }
+    }
+  
+
   return (
     <>
       <Header/>
@@ -11,12 +34,12 @@ function Home() {
         {/* landing part - search */}
         <div style={{height:'500px'}} className='flex justify-center items-center flex-col bg-[url(/bg-img.jpeg)] bg-cover bg-center text-white'>
         <div style={{height:'500px', backgroundColor:'rgba(0,0,0,0.4)'}} className='w-full flex justify-center items-center flex-col '>
-          <h1 className='text-5xl font-bold mb-2'>Wondeful Gifts</h1>
+          <h1 className='text-5xl font-bold mb-2'>Wonderful Gifts</h1>
           <p>Gift your family and friends a BOOKSTORE</p>
           {/* search */}
           <div className="mt-9 flex items-center">
-            <input type="text" className="bg-white rounded-3xl text-black w-100 placeholder-gray-500 p-2" placeholder='Search Books Here' />
-           <button className="text-gray-500" style={{ marginLeft: '-40px' }}><FaSearch /></button>
+            <input onChange={e=>setSearchKey(e.target.value)} type="text" className="bg-white rounded-3xl text-black w-100 placeholder-gray-500 p-2" placeholder='Search Books Here' />
+           <button onClick={handleSearch}  className="text-gray-500" style={{ marginLeft: '-40px' }}><FaSearch /></button>
 
           </div>
         </div>
@@ -70,7 +93,7 @@ function Home() {
        </div>
         {/* all books link */}
         <div className="text-center m-20">
-          <button to={'/books'} className="p-2 bg-blue-600 text-white">Explore More</button>
+          <button to={'/books'} className="p-2 bg-black text-white">Explore More</button>
         </div>
 
         </section>
@@ -108,9 +131,16 @@ function Home() {
         </section>
       </div>
       <Footer/>
+      <ToastContainer position='top-center' autoClose={2000} theme='colored'/>
     </>
   )
 }
 
 export default Home
+
+
+
+
+
+
 

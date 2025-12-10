@@ -9,6 +9,8 @@ function Header() {
   const [dp, setDp] = useState("")
   const [token, setToken] = useState("")
   const [dropDown, setDropDown] = useState(false)
+  console.log(dp);
+  
 
   useEffect(()=>{
     if(sessionStorage.getItem("user")){
@@ -18,6 +20,7 @@ function Header() {
       setDp(user.picture)
     }
   },[token])
+  
 
   const menuBtnClick = ()=>{
     setListStatus(!listStatus)
@@ -49,13 +52,13 @@ function Header() {
           :
           <div className="relative inline-block text-left ms-2">
             <button onClick={()=>setDropDown(!dropDown)} className="w-full bg-whie px-3 py-2 shadow hover:bg-gray-50">
-              <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src="https://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-female-user-profile-vector-illustration-isolated-background-women-profile-sign-business-concept_157943-38866.jpg?semt=ais_hybrid&w=740&q=80" alt="display-picture" />
+              <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src={dp?dp:"https://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-female-user-profile-vector-illustration-isolated-background-women-profile-sign-business-concept_157943-38866.jpg?semt=ais_hybrid&w=740&q=80"} alt="display-picture" />
             </button>
             {
               dropDown &&
               <div className="absolute right-0 z-10 mt-2 w-40 rounded-md bg-white shadow-lg origin-top-right ring-l ring-black/5 focus:outline-hidden">
               <Link to={'/user/profile'} className='px-4 py-2 text-gray-700 flex items-center '><FaAddressCard className='me-2'/> Profile</Link>
-              <button className=' px-4 py-2 text-gray-700 flex items-center'><FaPowerOff className='me-2'/>Logout</button>
+              <button className=' px-4 py-2 text-gray-700 flex items-center cursor-pointer'><FaPowerOff className='me-2'/>Logout</button>
             </div>
             }
           </div>
@@ -79,7 +82,7 @@ function Header() {
           :
           <div className="relative inline-block text-left ms-2">
             <button onClick={()=>setDropDown(!dropDown)} className="w-full bg-whie px-3 py-2 shadow hover:bg-gray-50">
-              <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src="https://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-female-user-profile-vector-illustration-isolated-background-women-profile-sign-business-concept_157943-38866.jpg?semt=ais_hybrid&w=740&q=80" alt="display-picture" />
+              <img width={'40px'} height={'40px'} style={{borderRadius:'50%'}} src={dp?dp:"https://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-female-user-profile-vector-illustration-isolated-background-women-profile-sign-business-concept_157943-38866.jpg?semt=ais_hybrid&w=740&q=80"} alt="display-picture" />
             </button>
             {
               dropDown &&
