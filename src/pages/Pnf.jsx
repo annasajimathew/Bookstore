@@ -1,15 +1,24 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-
+import React, { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { routeGuardContext } from '../contextAPI/AuthContext'
 
 function Pnf() {
+  const {role,authorised} = useContext(routeGuardContext)
+  const navigate = useNavigate()
+  const backHome = ()=>{
+    if(authorised){
+      role=="user" ? navigate('/'):navigate('/admin/home')
+    }else{
+      navigate('/')
+    }
+  }
   return (
     <div className='h-screen flex justify-center flex-col items-center'>
-      <img width={'20%'} src="https://assets.dochipo.com/editor/animations/404-error/34436078-a766-4673-b05a-1a30bdf86537.gif" alt="pnf" />
-      <p>Oh... No!!!</p>
-      <h1 className="text-black text-2xl">LookS Like You're Lost</h1>
-      <p>The page you are searchinh is not available</p>
-      <Link to={'/'} className='bg-black py-2 px-3 rounded my-3 text-white'>Back Home</Link>
+      <img width={'25%'} src="https://webytag.com/wp-content/uploads/2024/07/c19fc414b5c17a9e286bd53c5ab19e7c.gif" alt="pnf" />
+      <p>Oh!! No..</p>
+      <h1 className="text-blue-600 text-2xl">Look Like You're Lost!</h1>
+      <p>The Page your Looking is not avaliable</p>
+      <button onClick={backHome} className='bg-black py-2 px-3 rounded my-3 text-white'>Home</button>
     </div>
   )
 }

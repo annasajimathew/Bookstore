@@ -1,18 +1,30 @@
-import React from 'react'
-import { FaBookReader, FaHome } from 'react-icons/fa'
+import React,{useState,useEffect} from 'react'
+import {  FaBookReader, FaHome } from 'react-icons/fa'
 import { FaGears } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
-
+import serverURL from '../../services/serverURL'
 
 function AdminSideBar() {
+
+  const [dp,setDp] = useState("")
+  const [username,setUsername] = useState("")
+
+  useEffect(()=>{
+      if(sessionStorage.getItem("token") && sessionStorage.getItem("user")){
+        const user = JSON.parse(sessionStorage.getItem("user"))
+        setUsername(user?.username)
+        setDp(user?.picture)
+      }
+    },[])
+
   return (
-    <div className='bg-blue-100 md:min-h-screen h-fit md:flex flex-col text-center '>
+    <div className='bg-blue-100 md:min-h-screen h-fit md:flex flex-col text-center'>
       {/* admin image */}
       <div className='my-10 flex justify-center items-center'>
-        <img width={'150px'} height={'150px'} style={{borderRadius:'50%'}} src="https://t4.ftcdn.net/jpg/02/19/63/31/360_F_219633151_BW6TD8D1EA9OqZu4JgdmeJGg4JBaiAHj.jpg" alt="user" />
-      </div>
+        <img width={'100px'} height={'100px'} style={{borderRadius:'50%'}} src={dp?dp.startsWith("https://lh3.googleusercontent.com/")?dp:`${serverURL}/uploads/${dp}`:"https://img.freepik.com/premium-vector/cute-woman-avatar-profile-vector-illustration_1058532-14592.jpg?w=2000"} alt="user" />
+        </div>
       {/* name */}
-      <h1 className="text-lg font-bold mb-5">name</h1>
+      <h1 className="text-xl   font-bold mb-5">{username}</h1>
       {/* links */}
       <div className="mt-10 flex flex-col justify-center items-center">
         <div className="mb-3">
